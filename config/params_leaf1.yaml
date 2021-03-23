@@ -4,7 +4,7 @@ lio_sam:
   pointCloudTopic: "/left_os1/os1_cloud_node/points"               # Point cloud data
   imuTopic: "imu_raw"                         # IMU data
   odomTopic: "odometry/imu"                   # IMU pre-preintegration odometry, same frequency as IMU
-  gpsTopic: "odometry/gpsz"                   # GPS odometry topic from navsat, see module_navsat.launch file
+  gpsTopic: "odometry/gps"                   # GPS odometry topic from navsat, see module_navsat.launch file
 
   # Frames
   lidarFrame: "base_link"
@@ -14,9 +14,9 @@ lio_sam:
 
   # GPS Settings
   useImuHeadingInitialization: true           # if using GPS data, set to "true"
-  useGpsElevation: false                      # if GPS elevation is bad, set to "false"
-  gpsCovThreshold: 2.0                        # m^2, threshold for using GPS data
-  poseCovThreshold: 25.0                      # m^2, threshold for using GPS data "poseCovThreshold" can be used to adjust the frequency of adding GPS factor to the graph. For example, you will notice the trajectory is constantly corrected by GPS whey you set "poseCovThreshold" to 1.0.
+  useGpsElevation: true                      # if GPS elevation is bad, set to "false"
+  gpsCovThreshold: 0.2                        # m^2, threshold for using GPS data
+  poseCovThreshold: 5.0                      # m^2, threshold for using GPS data "poseCovThreshold" can be used to adjust the frequency of adding GPS factor to the graph. For example, you will notice the trajectory is constantly corrected by GPS whey you set "poseCovThreshold" to 1.0.
   
   # Export settings
   savePCD: true                              # https://github.com/TixiaoShan/LIO-SAM/issues/3
@@ -33,8 +33,8 @@ lio_sam:
   # IMU Settings
   imuAccNoise: 3.9939570888238808e-03
   imuGyrNoise: 1.5636343949698187e-03
-  imuAccBiasN: 6.4356659353532566e-05
-  imuGyrBiasN: 3.5640318696367613e-05
+  imuAccBiasN: 0.00965349890303               # 6 mg|||| 0.04 mg: 6.4356659353532566e-05 print(6/0.04*6.4356659353532566e-05)
+  imuGyrBiasN: 0.000712806373927             #0.04 |||| 0.002deg/s: 3.5640318696367613e-05 print(0.04/0.002*3.5640318696367613e-05)
   imuGravity: 10.4953683609                 # our IMU does not have the standard 9.8 m/s^2, the offset can be written here
   imuRPYWeight: 0.01
 
@@ -80,7 +80,7 @@ lio_sam:
                 #                0, 1, 0,
                 #                0, 0, 1]
 
- # LOAM feature threshold
+  # LOAM feature threshold
   edgeThreshold: 1.0
   surfThreshold: 0.1
   edgeFeatureMinValidNum: 10
@@ -92,8 +92,8 @@ lio_sam:
   mappingSurfLeafSize: 0.4                      # default: 0.4 - outdoor, 0.2 - indoor
 
   # robot motion constraint (in case you are using a 2D robot)
-  z_tollerance: 1000                            # meters
-  rotation_tollerance: 1000                     # radians
+  z_tollerance: 20                            # meters
+  rotation_tollerance: 1                     # radians
 
   # CPU Params
   numberOfCores: 4                              # number of cores for mapping optimization
@@ -107,11 +107,11 @@ lio_sam:
 
   # Loop closure
   loopClosureEnableFlag: true
-  loopClosureFrequency: 1.0                     # Hz, regulate loop closure constraint add frequency
-  surroundingKeyframeSize: 50                   # submap size (when loop closure enabled)
+  loopClosureFrequency: 2.0                     # Hz, regulate loop closure constraint add frequency
+  surroundingKeyframeSize: 1050                   # submap size (when loop closure enabled)
   historyKeyframeSearchRadius: 15.0             # meters, key frame that is within n meters from current pose will be considerd for loop closure
-  historyKeyframeSearchTimeDiff: 30.0           # seconds, key frame that is n seconds older will be considered for loop closure
-  historyKeyframeSearchNum: 25                  # number of hostory key frames will be fused into a submap for loop closure
+  historyKeyframeSearchTimeDiff: 90.0           # seconds, key frame that is n seconds older will be considered for loop closure
+  historyKeyframeSearchNum: 50                  # number of hostory key frames will be fused into a submap for loop closure
   historyKeyframeFitnessScore: 0.3              # icp threshold, the smaller the better alignment
 
   # Visualization
@@ -130,13 +130,13 @@ navsat:
   magnetic_declination_radians: 0
   yaw_offset: 0
   zero_altitude: true
-  broadcast_utm_transform: false
-  broadcast_utm_transform_as_parent_frame: false
-  publish_filtered_gps: false
+  broadcast_utm_transform: true
+  broadcast_utm_transform_as_parent_frame: true
+  publish_filtered_gps: true
 
 # EKF for Navsat
 ekf_gps:
-  publish_tf: false
+  publish_tf: true
   map_frame: map
   odom_frame: odom
   base_link_frame: base_link
