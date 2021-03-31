@@ -16,6 +16,6 @@
 
     <!--- Run Rviz-->
     <!--<include file="$(find lio_sam)/launch/include/module_rviz.launch" />-->
-    <node pkg="rviz" type="rviz" name="$(arg project)_rviz" args="-d $(find lio_sam)/launch/include/config/rviz_leaf2_tmp.rviz" />
+    <node pkg="rviz" type="rviz" name="$(arg project)_rviz" args="-d $(find lio_sam)/launch/include/config/rviz_leaf1.rviz" />
 
 </launch>

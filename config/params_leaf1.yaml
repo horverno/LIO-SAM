@@ -31,10 +31,10 @@ lio_sam:
   lidarMaxRange: 1000.0                       # default: 1000.0, maximum lidar range to be used
 
   # IMU Settings
-  imuAccNoise: 3.9939570888238808e-03
-  imuGyrNoise: 1.5636343949698187e-03
-  imuAccBiasN: 0.00965349890303               # 6 mg|||| 0.04 mg: 6.4356659353532566e-05 print(6/0.04*6.4356659353532566e-05)
-  imuGyrBiasN: 0.000712806373927             #0.04 |||| 0.002deg/s: 3.5640318696367613e-05 print(0.04/0.002*3.5640318696367613e-05)
+  imuAccNoise: 2.5922577704238961e-02         # https://github.com/gaowenliang/imu_utils acc_n original: 3.9939570888238808e-03 m/s^2
+  imuGyrNoise: 1.2535793021888873e-03         # https://github.com/gaowenliang/imu_utils gyr_n original: 1.5636343949698187e-03 rad/s
+  imuAccBiasN: 2.9902223949924354e-04         # https://github.com/gaowenliang/imu_utils acc_w original: 6.4356659353532566e-05 m/s^2
+  imuGyrBiasN: 1.3255870424463113e-05         # https://github.com/gaowenliang/imu_utils gyr_w original: 3.5640318696367613e-05 rad/s
   imuGravity: 10.4953683609                 # our IMU does not have the standard 9.8 m/s^2, the offset can be written here
   imuRPYWeight: 0.01
 
