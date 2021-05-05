@@ -18,4 +18,6 @@
     <!--<include file="$(find lio_sam)/launch/include/module_rviz.launch" />-->
     <node pkg="rviz" type="rviz" name="$(arg project)_rviz" args="-d $(find lio_sam)/launch/include/config/rviz_leaf1.rviz" />
 
+    <param name="robot_description" textfile="$(find lio_sam)/launch/robot_desc.xml" />
+
 </launch>
